@@ -2,13 +2,14 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { Group } from "three";
 
 function Deodar({ still }: { still: boolean }) {
   // The runtime objects are Three.js groups supplied by React Three Fiber.
   // Keeping this local structural type avoids requiring Cloudflare's bundled
   // Three.js declarations in the Vercel build.
-  const tree = useRef<any>(null);
-  const crown = useRef<any>(null);
+  const tree = useRef<Group>(null);
+  const crown = useRef<Group>(null);
   const tiers = useMemo(() => [
     { y: .9, r: 2.45, branches: 13 },
     { y: 1.75, r: 2.28, branches: 12 },

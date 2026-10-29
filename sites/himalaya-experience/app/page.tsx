@@ -245,15 +245,36 @@ export default function Home() {
 
   useEffect(() => {
     const savedPlans = localStorage.getItem("himalaya-saved");
-    if (savedPlans) setSaved(JSON.parse(savedPlans));
+    if (savedPlans) {
+      window.setTimeout(() => {
+        try {
+          const parsed = JSON.parse(savedPlans);
+          if (Array.isArray(parsed) && parsed.every((item) => typeof item === "string")) {
+            setSaved(parsed);
+          }
+        } catch {
+          localStorage.removeItem("himalaya-saved");
+        }
+      }, 0);
+    }
     const stamps = localStorage.getItem("himalaya-passport");
-    if (stamps) setPassport(JSON.parse(stamps));
+    if (stamps) {
+      window.setTimeout(() => {
+        try {
+          const parsed = JSON.parse(stamps);
+          if (Array.isArray(parsed) && parsed.every((item) => typeof item === "string")) {
+            setPassport(parsed);
+          }
+        } catch {
+          localStorage.removeItem("himalaya-passport");
+        }
+      }, 0);
+    }
     const updateClock = () => { const now=new Date(); const hour=now.getHours(); setSessionClock(now.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})); setDayPart(hour<6?"night":hour<11?"dawn":hour<17?"day":hour<20?"evening":"night"); };
     updateClock(); const clock=window.setInterval(updateClock,60000); return ()=>window.clearInterval(clock);
   }, []);
 
   useEffect(() => {
-    setPlaceFrame(0);
     const timer = window.setInterval(() => setPlaceFrame((frame) => (frame + 1) % destinations[destinationIndex].images.length), 2600);
     return () => window.clearInterval(timer);
   }, [destinationIndex]);
@@ -334,7 +355,7 @@ export default function Home() {
 
       <section className="living-atlas" id="living-atlas"><div className="atlas-head"><p className="kicker">REAL SATELLITE JOURNEY MAP</p><h2>Cross Himachal<br/><em>ridge by ridge.</em></h2><p>Real Google satellite geography from the Shivalik foothills to the cold-desert valleys. Select a district marker, or open a mountain region in Google Earth for full 3D terrain.</p></div><div className="route-stage real-map"><iframe title="Google satellite map of Himachal Pradesh" src="https://maps.google.com/maps?q=Himachal%20Pradesh%2C%20India&t=k&z=7&output=embed" loading="lazy" referrerPolicy="no-referrer-when-downgrade"/><div className="map-vignette" aria-hidden="true"/>{[0,3,7,5,10,8,4,6].map((d,i)=><button key={districts[d].name} style={{left:`${7+i*12.3}%`,top:`${70-(i%3)*20}%`}} onClick={()=>{setDistrictIndex(d);document.querySelector("#districts")?.scrollIntoView({behavior:"smooth"})}}><span>{i+1}</span><b>{districts[d].name}</b><small>{districts[d].place.split(" · ")[0]}</small></button>)}</div><div className="earth-links"><span>OPEN REAL MOUNTAIN TERRAIN IN 3D</span>{[["Dhauladhar","Dhauladhar Range, Himachal Pradesh"],["Kinnaur Kailash","Kinnaur Kailash, Himachal Pradesh"],["Spiti Valley","Spiti Valley, Himachal Pradesh"],["Manali & Rohtang","Rohtang Pass, Himachal Pradesh"]].map(([label,query])=><a key={label} href={`https://earth.google.com/web/search/${encodeURIComponent(query)}`} target="_blank" rel="noreferrer"><Mountain/>{label}<ArrowRight/></a>)}</div><div className="mountain-pulse"><div><span>TRAVEL PULSE · UPDATED IN YOUR SESSION</span><b>{sessionClock}</b><small>Local device time</small></div><div><span>SNOWLINE WATCH</span><b>{climate==="winter"?"Active":"Seasonal"}</b><small>Verify district advisories</small></div><div><span>DAYLIGHT MOOD</span><b>{dayPart==="dawn"?"Morning":dayPart==="day"?"Mountain day":dayPart==="evening"?"Golden hour":"Starlight"}</b><small>The homepage responds to time</small></div><div><span>ROAD & TRAIL STATUS</span><b>Check locally</b><small>Conditions change quickly</small></div></div></section>
 
-      <section className="discover" id="discover"><div className="section-head"><div><p className="kicker">REAL PLACES · ANIMATED PHOTO STORIES</p><h2>Places with a<br/><em>sense of soul.</em></h2></div><div className="carousel-controls"><button onClick={()=>setDestinationIndex((destinationIndex+destinations.length-1)%destinations.length)}><ChevronLeft/></button><span>{String(destinationIndex+1).padStart(2,"0")} / {String(destinations.length).padStart(2,"0")}</span><button onClick={()=>setDestinationIndex((destinationIndex+1)%destinations.length)}><ChevronRight/></button></div></div><div className="destination-track" style={{transform:`translateX(calc(-${destinationIndex} * min(36vw, 420px)))`}}>{destinations.map((d,i)=><article className={`destination-card ${i===destinationIndex?"selected":""}`} key={d.name} onClick={()=>setDestinationIndex(i)}>{d.images.map((src,frame)=><img className={`place-frame ${frame===(i===destinationIndex?placeFrame:0)?"active":""}`} src={src} alt={`${d.name}, Himachal Pradesh — view ${frame+1}`} key={src}/>) }<div className="place-progress">{d.images.map((_,frame)=><i className={frame===(i===destinationIndex?placeFrame:0)?"active":""} key={frame}/>)}</div><div className="card-shade"/><button className={`heart ${saved.includes(d.name)?"active":""}`} onClick={(e)=>{e.stopPropagation();toggleSave(d.name)}} aria-label={`Save ${d.name}`}><Heart size={18} fill={saved.includes(d.name)?"currentColor":"none"}/></button><div className="card-top"><span>{d.tag}</span><span>{d.meta}</span></div><div className="card-copy"><span className="index">{String(i+1).padStart(2,"0")}</span><h3>{d.name}</h3><p>{d.copy}</p><small className="photo-credit">Photo: {d.credit}</small><span className="explore-link"><MapPin size={14}/> Select to explore</span></div></article>)}</div></section>
+      <section className="discover" id="discover"><div className="section-head"><div><p className="kicker">REAL PLACES · ANIMATED PHOTO STORIES</p><h2>Places with a<br/><em>sense of soul.</em></h2></div><div className="carousel-controls"><button onClick={()=>setDestinationIndex((destinationIndex+destinations.length-1)%destinations.length)}><ChevronLeft/></button><span>{String(destinationIndex+1).padStart(2,"0")} / {String(destinations.length).padStart(2,"0")}</span><button onClick={()=>setDestinationIndex((destinationIndex+1)%destinations.length)}><ChevronRight/></button></div></div><div className="destination-track" style={{transform:`translateX(calc(-${destinationIndex} * min(36vw, 420px)))`}}>{destinations.map((d,i)=><article className={`destination-card ${i===destinationIndex?"selected":""}`} key={d.name} onClick={()=>setDestinationIndex(i)}>{d.images.map((src,frame)=><img className={`place-frame ${frame===(i===destinationIndex?placeFrame:0)?"active":""}`} src={src} alt={`${d.name}, Himachal Pradesh — view ${frame+1}`} key={`${d.name}-${frame}`}/>) }<div className="place-progress">{d.images.map((_,frame)=><i className={frame===(i===destinationIndex?placeFrame:0)?"active":""} key={frame}/>)}</div><div className="card-shade"/><button className={`heart ${saved.includes(d.name)?"active":""}`} onClick={(e)=>{e.stopPropagation();toggleSave(d.name)}} aria-label={`Save ${d.name}`}><Heart size={18} fill={saved.includes(d.name)?"currentColor":"none"}/></button><div className="card-top"><span>{d.tag}</span><span>{d.meta}</span></div><div className="card-copy"><span className="index">{String(i+1).padStart(2,"0")}</span><h3>{d.name}</h3><p>{d.copy}</p><small className="photo-credit">Photo: {d.credit}</small><span className="explore-link"><MapPin size={14}/> Select to explore</span></div></article>)}</div></section>
 
       <section className="journey" id="journey"><div className="journey-image" style={{backgroundImage:`url(${images.trek})`}}><div className="contours"/><div className="trail"><i/><i/><i/><i/></div><div className="altitude"><Mountain/><span>TRIUND RIDGELINE · REAL LOCATION<small>Above McLeod Ganj · conditions vary</small></span></div></div><div className="journey-copy"><p className="kicker">JOURNEY INTO THE DHAULADHARS</p><h2>Leave the road.<br/><em>Find the rhythm.</em></h2><p>Walk from the cedar shade of Dharamkot toward wide ridgelines and valley views. Routes here reward preparation, patience, and local guidance.</p><div className="journey-steps"><div className="active"><span>01</span><div><b>Enter the forest</b><small>Deodar shade · stone paths</small></div></div><div><span>02</span><div><b>Rise above the valley</b><small>Changing light · open views</small></div></div><div><span>03</span><div><b>Reach the ridgeline</b><small>Weather permitting</small></div></div></div><a className="text-link" href="#planner">Explore mindful adventures <ArrowRight size={16}/></a></div></section>
 

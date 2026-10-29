@@ -6,9 +6,10 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build --webpack",
-    "start": "next start",
+    "install:ci": "node ./scripts/install-ci.mjs",
+    "dev": "node ./scripts/run-framework.mjs dev",
+    "build": "node ./scripts/run-framework.mjs build",
+    "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json",
     "lint": "eslint .",
     "db:generate": "drizzle-kit generate"
   },
@@ -47,12 +48,14 @@
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "6.0.2",
     "@vitejs/plugin-rsc": "0.5.26",
     "drizzle-kit": "0.31.10",
     "eslint": "9.39.4",
     "eslint-config-next": "16.3.4",
     "json-rpc-2.0": "1.7.1",
+    "nitro": "^3.0.260903-beta",
     "raw-body": "3.0.2",
     "react-server-dom-webpack": "19.2.6",
     "tailwindcss": "4.2.1",

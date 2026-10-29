@@ -13,6 +13,7 @@
 /dist/
 /.next/
 /.vinext/
+/.vercel/
 /out/
 next-env.d.ts
 *.tsbuildinfo

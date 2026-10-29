@@ -1,5 +1,5 @@
 import vinext from "vinext";
-import { defineConfig } from "vite";
+import { defineConfig, type PluginOption } from "vite";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
 import { configureToolEnvironment } from "./scripts/tool-environment.mjs";
@@ -39,23 +39,17 @@ const localBindingConfig = {
 
 export default defineConfig(async ({ command }) => {
   configureToolEnvironment(process.cwd());
+  const isVercel = process.env.VERCEL === "1";
+  const plugins: PluginOption[] = [vinext(), sites({ mockAuth: !managedLinux })];
 
-  // Wrangler snapshots its log path while the Cloudflare plugin is imported.
-  const { cloudflare } = await import("@cloudflare/vite-plugin");
-
-  return {
-    server: {
-      ...(managedLinux
-        ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }
-        : {}),
-      ...(isCodexSeatbeltSandbox
-        ? { watch: { useFsEvents: false, usePolling: true } }
-        : {}),
-    },
-    plugins: [
-      vinext(),
-      sites({ mockAuth: !managedLinux }),
-      connectorPreview(),
+  if (isVercel) {
+    const { nitro } = await import("nitro/vite");
+    plugins.push(nitro());
+  } else {
+    // Wrangler snapshots its log path while the Cloudflare plugin is imported.
+    const { cloudflare } = await import("@cloudflare/vite-plugin");
+    plugins.push(
+      connectorPreview() as PluginOption,
       cloudflare({
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
         inspectorPort: false,
@@ -87,6 +81,18 @@ export default defineConfig(async ({ command }) => {
             }
           : {}),
       }),
-    ],
+    );
+  }
+
+  return {
+    server: {
+      ...(managedLinux
+        ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }
+        : {}),
+      ...(isCodexSeatbeltSandbox
+        ? { watch: { useFsEvents: false, usePolling: true } }
+        : {}),
+    },
+    plugins,
   };
 });
