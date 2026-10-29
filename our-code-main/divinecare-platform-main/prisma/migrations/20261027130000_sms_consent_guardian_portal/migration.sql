@@ -1,9 +1,0 @@
--- Patient SMS TCPA gate + guardian portal access tiers (Oct 21 staging)
-ALTER TABLE "Client" ADD COLUMN IF NOT EXISTS "smsConsent" BOOLEAN NOT NULL DEFAULT false;
-ALTER TABLE "Client" ADD COLUMN IF NOT EXISTS "smsConsentAt" TIMESTAMP(3);
-ALTER TABLE "Client" ADD COLUMN IF NOT EXISTS "smsConsentSource" TEXT;
-ALTER TABLE "Client" ADD COLUMN IF NOT EXISTS "smsOptOutAt" TIMESTAMP(3);
-
-ALTER TABLE "PatientAccount" ADD COLUMN IF NOT EXISTS "relationship" TEXT;
-ALTER TABLE "PatientAccount" ADD COLUMN IF NOT EXISTS "accessTier" TEXT;
-ALTER TABLE "PatientAccount" ADD COLUMN IF NOT EXISTS "isProxy" BOOLEAN NOT NULL DEFAULT false;

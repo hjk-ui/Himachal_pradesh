@@ -1,6 +1,0 @@
-# OWASP ZAP baseline rule overrides (tab-separated: rule-id<TAB>IGNORE|WARN|FAIL<TAB>reason).
-# Only add an IGNORE here for a confirmed false positive, with the reason.
-10096	IGNORE	Timestamp Disclosure - Unix: matches numeric IDs/build hashes in Next.js chunks, not server timestamps
-10027	IGNORE	Information Disclosure - Suspicious Comments: flags words like 'TODO'/'select' inside minified third-party JS bundles
-10109	IGNORE	Modern Web Application: informational notice that the site is a SPA
-10049	IGNORE	Non-Storable / Storable Content: informational cache classification
