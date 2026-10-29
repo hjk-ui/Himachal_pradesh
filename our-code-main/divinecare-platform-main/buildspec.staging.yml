@@ -1,0 +1,36 @@
+version: 0.2
+
+# Node 22 CodeBuild — produce builds/<COMMIT_SHA>.tar.gz for prebuilt staging deploy
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - echo "Installing dependencies"
+      - npm ci
+  pre_build:
+    commands:
+      - echo "Commit $CODEBUILD_RESOLVED_SOURCE_VERSION"
+      - |
+        if [ -n "$NEXT_CACHE_S3_URI" ]; then
+          aws s3 sync "$NEXT_CACHE_S3_URI" .next/cache --quiet || true
+        fi
+  build:
+    commands:
+      - npm run build
+  post_build:
+    commands:
+      - |
+        SHA="${CODEBUILD_RESOLVED_SOURCE_VERSION:-unknown}"
+        mkdir -p dist
+        tar -czf "dist/${SHA}.tar.gz" .next package.json package-lock.json prisma public next.config.* 2>/dev/null || \
+          tar -czf "dist/${SHA}.tar.gz" .next package.json package-lock.json prisma public
+        echo "Built dist/${SHA}.tar.gz"
+        if [ -n "$BUILDS_S3_URI" ]; then
+          aws s3 cp "dist/${SHA}.tar.gz" "${BUILDS_S3_URI%/}/builds/${SHA}.tar.gz"
+        fi
+
+artifacts:
+  files:
+    - dist/*.tar.gz
+  discard-paths: yes

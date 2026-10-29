@@ -1,0 +1,121 @@
+# send_medication_delete  (engine servlet, DrFirst staging 201)
+# captured 2026-10-20T15:39:03.494Z  HTTP 200  73 ms
+
+=== REQUEST ===
+POST https://engine201.staging.drfirst.com/servlet/rcopia.servlet.EngineServlet
+Content-Type: text/xml; charset=UTF-8
+
+<?xml version="1.0" encoding="UTF-8"?>
+<RCExtRequest version="2.54">
+  <Caller>
+    <VendorName>[redacted]</VendorName>
+    <VendorPassword>[redacted]</VendorPassword>
+  </Caller>
+  <RcopiaUserName>ssherman</RcopiaUserName>
+  <SystemName>[vendor-username]</SystemName>
+  <RcopiaPracticeUsername>mb3385</RcopiaPracticeUsername>
+  <Request>
+    <Command>send_medication</Command>
+    <MedicationList>
+      <Medication>
+        <Deleted>y</Deleted>
+        <ExternalID>altrixs-cert-med-1</ExternalID>
+        <Patient>
+          <RcopiaID>27162725039</RcopiaID>
+        </Patient>
+        <HasScheduledDrug>n</HasScheduledDrug>
+        <HistorySource>patient</HistorySource>
+        <Sig>
+          <Drug>
+            <GenericName>TEST certification multivitamin</GenericName>
+            <Schedule>nonscheduled</Schedule>
+            <Supply>n</Supply>
+            <Compound>n</Compound>
+          </Drug>
+          <Dosage>
+            <InstructionList>
+              <Instruction>
+                <Sequence>1</Sequence>
+                <Action>Take</Action>
+                <Dose>1</Dose>
+                <DoseUnit>tablet</DoseUnit>
+                <Route>by mouth</Route>
+                <DoseTiming>once a day</DoseTiming>
+              </Instruction>
+            </InstructionList>
+          </Dosage>
+        </Sig>
+        <StartDate>10/01/2026</StartDate>
+      </Medication>
+    </MedicationList>
+  </Request>
+</RCExtRequest>
+
+=== RESPONSE ===
+<RCExtResponse version="2.54">
+<TraceInformation>
+<RequestMessageID></RequestMessageID>
+<ResponseMessageID>SB-102020261139034-1003399</ResponseMessageID>
+<DestinationURL>https://engine201.staging.drfirst.com/servlet/rcopia.servlet.EngineServlet</DestinationURL>
+<RequestTimestamp>10/20/2026 11:39:03</RequestTimestamp>
+<ResponseStartTimestamp>10/20/2026 11:39:03</ResponseStartTimestamp>
+<RcopiaServerName>staging-us-erx-rcopia-engine-service-201-c5b7b9654-qqcj9_8080</RcopiaServerName>
+</TraceInformation>
+<Request>
+<Caller>
+<VendorName>[redacted]</VendorName>
+<VendorPassword>[redacted by DrFirst]</VendorPassword>
+</Caller>
+<RcopiaUserName>ssherman</RcopiaUserName>
+<SystemName>[vendor-username]</SystemName>
+<RcopiaPracticeUsername>mb3385</RcopiaPracticeUsername>
+<Request>
+<Command>send_medication</Command>
+<MedicationList>
+<Medication>
+<ExternalID>altrixs-cert-med-1</ExternalID>
+<Deleted>y</Deleted>
+<Patient>
+<RcopiaID>27162725039</RcopiaID>
+</Patient>
+<HasScheduledDrug>n</HasScheduledDrug>
+<Sig>
+<Drug>
+<GenericName>TEST certification multivitamin</GenericName>
+<Schedule>nonscheduled</Schedule>
+<Supply>n</Supply>
+<Compound>n</Compound>
+</Drug>
+<Dosage>
+<InstructionList>
+<Instruction>
+<Sequence>1</Sequence>
+<Action>Take</Action>
+<Dose>1</Dose>
+<DoseUnit>tablet</DoseUnit>
+<Route>by mouth</Route>
+<DoseTiming>once a day</DoseTiming>
+</Instruction>
+</InstructionList>
+</Dosage>
+</Sig>
+<StartDate>10/01/2026</StartDate>
+<HistorySource>patient</HistorySource>
+</Medication>
+</MedicationList>
+</Request>
+</Request>
+<Response>
+<ServerIPAddress>staging-us-erx-rcopia-engine-service-201-c5b7b9654-qqcj9_8080</ServerIPAddress>
+<Status>ok</Status>
+<MedicationList>
+<Medication>
+<RcopiaID>61400519440</RcopiaID>
+<ExternalID>altrixs-cert-med-1</ExternalID>
+<Status>deleted</Status>
+</Medication>
+</MedicationList>
+</Response>
+<ResponseEndTimestamp>10/20/2026 11:39:03</ResponseEndTimestamp>
+</RCExtResponse>
+

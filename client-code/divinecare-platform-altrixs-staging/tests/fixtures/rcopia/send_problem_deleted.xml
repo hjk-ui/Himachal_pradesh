@@ -1,0 +1,13 @@
+<Response>
+<Status>ok</Status>
+<ProblemList>
+<Problem>
+<RcopiaID>6132416311</RcopiaID>
+<ExternalID>altrixs-cert-dx-1</ExternalID>
+<Status>deleted</Status>
+</Problem>
+</ProblemList>
+</Response>
+<ResponseEndTimestamp>10/20/2026 11:39:03</ResponseEndTimestamp>
+</RCExtResponse>
+

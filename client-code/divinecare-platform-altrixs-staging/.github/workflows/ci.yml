@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main, staging/hardening, altrixs-staging]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      # Dummy values: the build and tests never connect to a database or an integration.
+      # `npm ci` runs `prisma generate` (postinstall), which needs DATABASE_URL to be set.
+      DATABASE_URL: postgresql://ci:ci@localhost:5432/ci?schema=public
+      AUTH_SECRET: ci-only-not-a-secret-ci-only-not-a-secret
+      AUTH_URL: http://localhost:3000
+      ALTRIXS_ENV: development
+      NEXT_TELEMETRY_DISABLED: '1'
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Dependency audit - report high and above (non-blocking)
+        run: npm audit --omit=dev --audit-level=high
+        continue-on-error: true
+
+      - name: Dependency audit - fail on critical
+        run: npm audit --omit=dev --audit-level=critical
+
+      - name: Type-check
+        run: npx tsc --noEmit -p .
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Migration script syntax
+        run: bash -n scripts/migrate.sh
+
+      - name: Lint (non-blocking until the existing errors are fixed)
+        run: npx eslint .
+        continue-on-error: true
+
+      - name: Build
+        # Type-checking already ran above.
+        run: npx next build
+        env:
+          ALTRIXS_SKIP_BUILD_TYPECHECK: '1'

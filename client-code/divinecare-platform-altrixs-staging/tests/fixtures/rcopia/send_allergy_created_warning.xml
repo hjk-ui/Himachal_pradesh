@@ -1,0 +1,17 @@
+<Response>
+<Status>ok</Status>
+<AllergyList>
+<Allergy>
+<RcopiaID>6184120311</RcopiaID>
+<ExternalID>altrixs-cert-alg-1</ExternalID>
+<Status>created</Status>
+<Warning>
+<Code></Code>
+<Text>Reaction saved with SNOMED-CTConceptID '247472004' via match on description</Text>
+</Warning>
+</Allergy>
+</AllergyList>
+</Response>
+<ResponseEndTimestamp>10/20/2026 11:39:03</ResponseEndTimestamp>
+</RCExtResponse>
+

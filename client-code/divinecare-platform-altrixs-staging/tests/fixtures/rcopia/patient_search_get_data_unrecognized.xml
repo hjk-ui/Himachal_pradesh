@@ -1,0 +1,9 @@
+<Response>
+<Status>error</Status>
+<Error>
+<Code>unspecified</Code>
+<Text>Could not process command 'patient_search_get_data'</Text>
+</Error>
+</Response>
+</RCExtResponse>
+

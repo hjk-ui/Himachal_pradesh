@@ -1,0 +1,50 @@
+<Response>
+<LastUpdateDate>10/16/2026 22:28:24</LastUpdateDate>
+<ProblemList>
+<Problem>
+<Deleted>y</Deleted>
+<Status><Deleted/></Status>
+<RcopiaID>6132308711</RcopiaID>
+<ExternalID>altrixs-probe-prob-1</ExternalID>
+<Patient>
+<RcopiaID>27162725039</RcopiaID>
+<ExternalID>maxpatient</ExternalID>
+<RcopiaPracticeID>2741843271</RcopiaPracticeID>
+<FirstName>Test</FirstName>
+<LastName>Patient</LastName>
+</Patient>
+<ICD10>
+<Code>F41.1</Code>
+<Description>Generalized anxiety disorder</Description>
+</ICD10>
+<OnsetDate></OnsetDate>
+<LastModifiedBy>vendor_user</LastModifiedBy>
+<LastModifiedDate>10/16/2026 22:24:38 EDT</LastModifiedDate>
+</Problem>
+<Problem>
+<Deleted>n</Deleted>
+<Status><Active/></Status>
+<RcopiaID>6132212511</RcopiaID>
+<ExternalID></ExternalID>
+<Patient>
+<RcopiaID>27162725039</RcopiaID>
+<ExternalID>maxpatient</ExternalID>
+<RcopiaPracticeID>2741843271</RcopiaPracticeID>
+<FirstName>Test</FirstName>
+<LastName>Patient</LastName>
+</Patient>
+<ICD9>
+<Code>300.0</Code>
+<Description>Anxiety States</Description>
+</ICD9>
+<OnsetDate>10/15/2026</OnsetDate>
+<LastModifiedBy>ssherman</LastModifiedBy>
+<LastModifiedDate>10/15/2026 12:24:11 EDT</LastModifiedDate>
+</Problem>
+<Number>2</Number>
+</ProblemList>
+<Status>ok</Status>
+</Response>
+<ResponseEndTimestamp>10/16/2026 22:28:24</ResponseEndTimestamp>
+</RCExtResponse>
+

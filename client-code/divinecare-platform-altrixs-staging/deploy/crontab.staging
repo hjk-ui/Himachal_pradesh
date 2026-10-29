@@ -1,0 +1,63 @@
+# /etc/cron.d/altrixs-staging: scheduled jobs on the staging server (Altrixs-staging).
+# Install:  sudo install -m 644 -o root -g root deploy/crontab.staging /etc/cron.d/altrixs-staging
+# (cron.d format: minute hour dom month dow USER command). Times are UTC.
+#
+# Command lines are the ones in each script's header comment. Every job runs from the app folder
+# so `--env-file=.env` and the tsconfig `@/` paths resolve.
+#
+# TODO(verify on server): `npx` resolves to /usr/bin/npx (NodeSource Node 22); log paths other than
+#   the SUD radar log; whether the existing /etc/cron.d/altrixs-sud-radar-scan (wrapper
+#   /usr/local/bin/altrixs-sud-radar-scan) and any existing DrFirst / Waystar entries must be
+#   removed when this file is installed, so no job runs twice. drfirst-sync and sud-radar-scan
+#   hold a Postgres advisory lock (job:drfirst-sync, job:sud-radar-scan), so an overlapping run
+#   exits 0 with "already running"; waystar-retrieve relies on its per-file lock.
+#   The log files must exist and be writable by `altrixs`:
+#     sudo install -m 640 -o altrixs -g altrixs /dev/null /var/log/altrixs-<job>.log
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin
+APP=/opt/altrixs/app
+
+# DrFirst download sweep, every 5 minutes (DrFirst's minimum, GM8; polls are claimed at the whole minute)
+*/5 * * * * altrixs cd $APP && npx tsx --env-file=.env scripts/drfirst-sync.ts >> /var/log/altrixs-drfirst-sync.log 2>&1
+
+# Waystar retrieval (999 / 277CA / 835 / 271), every 30 minutes
+*/30 * * * * altrixs cd $APP && npx tsx --conditions=react-server --env-file=.env scripts/waystar-retrieve.ts >> /var/log/altrixs-waystar-retrieve.log 2>&1
+
+# SUD Referral Radar nightly scan, 07:00 UTC
+0 7 * * * altrixs cd $APP && npx tsx --conditions=react-server --env-file=.env scripts/sud-radar-scan.ts >> /var/log/altrixs-sud-radar-scan.log 2>&1
+
+# Portal proxy (guardian) expiry: ends proxy links at the client's 18th birthday / end date, invites
+# the client to their own login. 06:30 UTC. Idempotent; every portal request re-checks anyway.
+30 6 * * * altrixs cd $APP && npx tsx --conditions=react-server --env-file=.env scripts/portal-proxy-expiry.ts >> /var/log/altrixs-portal-proxy-expiry.log 2>&1
+
+# Automatic consent reminders (unsigned packets at 3 / 7 days, renewals 30 / 7 days before expiry,
+# max 3 per packet / consent; practice toggle "Automatic consent reminders"). 14:00 UTC = 10:00 ET,
+# daytime so texts never go out at night. Advisory lock job:consent-reminders.
+0 14 * * * altrixs cd $APP && npx tsx --env-file=.env scripts/consent-reminders.ts --apply >> /var/log/altrixs-consent-reminders.log 2>&1
+
+# Automatic overnight eligibility checks (270 for tomorrow's visits whose coverage is older than the
+# front-office window; practice setting "Automatic overnight eligibility checks", default OFF).
+# Enable at Waystar production go-live: uncomment the line below. 02:00 UTC. Advisory lock
+# job:eligibility-nightly. The job also refuses to send while WAYSTAR usage indicator is T unless the
+# practice turned on "Allow on test clearinghouse".
+# 0 2 * * * altrixs cd $APP && npx tsx --conditions=react-server --env-file=.env scripts/eligibility-nightly.ts --apply >> /var/log/altrixs-eligibility-nightly.log 2>&1
+
+# Pre-visit measures to patients (rules + email / text 3 days and 1 day before visits; practice
+# settings "Send measures to patients before visits" and each rule default OFF, so nothing is sent
+# until leadership turns them on). 14:30 UTC = 10:30 ET, daytime. Advisory lock job:measures-send.
+30 14 * * * altrixs cd $APP && npx tsx --env-file=.env scripts/measures-send.ts --apply >> /var/log/altrixs-measures-send.log 2>&1
+
+# Homebase read-only sync (locations, employees, shifts, timecards; nothing is sent to Homebase),
+# hourly at :20. NOT INSTALLED: install only after owner approval, and only once HOMEBASE_API_KEY +
+# HOMEBASE_ORGANIZATION_ID are on the server (Secrets Manager altrixs/staging/homebase). Without a
+# key the script prints "not connected" and exits 0. Advisory lock job:homebase-sync:<org>.
+# See docs/homebase-integration.md.
+# 20 * * * * altrixs cd $APP && npx tsx --conditions=react-server --env-file=.env scripts/homebase-sync.ts >> /var/log/altrixs-homebase-sync.log 2>&1
+
+# Nightly chart-history prep: generates missing / stale chart history digests (BH or medical, by
+# visit) for clients with a visit tomorrow, so the pre-visit brief has cited history before the
+# visit. Bounded: --concurrency 4, --max-cost 75 dollars per run, --max-clients 200; counts and
+# costs only in the log. 01:00 UTC = 9 PM ET (EDT; 8 PM in winter). Advisory lock job:chart-digest-prep.
+# Also set CHART_DIGEST_NIGHTLY_PREP=on in .env when installed (chart history card wording).
+# NOT INSTALLED: install only after owner approval: 'install the nightly digest job'.
+# 0 1 * * * altrixs cd $APP && npx tsx --conditions=react-server --env-file=.env scripts/chart-digest-prep.ts --apply --concurrency=4 --max-cost=75 >> /var/log/altrixs-chart-digest-prep.log 2>&1

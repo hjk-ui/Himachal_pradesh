@@ -1,0 +1,95 @@
+# send_allergy_delete  (engine servlet, DrFirst staging 201)
+# captured 2026-10-20T15:39:03.375Z  HTTP 200  44 ms
+
+=== REQUEST ===
+POST https://engine201.staging.drfirst.com/servlet/rcopia.servlet.EngineServlet
+Content-Type: text/xml; charset=UTF-8
+
+<?xml version="1.0" encoding="UTF-8"?>
+<RCExtRequest version="2.54">
+  <Caller>
+    <VendorName>[redacted]</VendorName>
+    <VendorPassword>[redacted]</VendorPassword>
+  </Caller>
+  <RcopiaUserName>ssherman</RcopiaUserName>
+  <SystemName>[vendor-username]</SystemName>
+  <RcopiaPracticeUsername>mb3385</RcopiaPracticeUsername>
+  <Request>
+    <Command>send_allergy</Command>
+    <AllergyList>
+      <Allergy>
+        <Deleted>y</Deleted>
+        <ExternalID>altrixs-cert-alg-1</ExternalID>
+        <Patient>
+          <RcopiaID>27162725039</RcopiaID>
+        </Patient>
+        <Allergen>
+          <Name>Peanuts</Name>
+        </Allergen>
+        <ReactionList>
+          <Reaction>
+            <Description>Hives</Description>
+          </Reaction>
+        </ReactionList>
+      </Allergy>
+    </AllergyList>
+  </Request>
+</RCExtRequest>
+
+=== RESPONSE ===
+<RCExtResponse version="2.54">
+<TraceInformation>
+<RequestMessageID></RequestMessageID>
+<ResponseMessageID>SB-102020261139033-1002566</ResponseMessageID>
+<DestinationURL>https://engine201.staging.drfirst.com/servlet/rcopia.servlet.EngineServlet</DestinationURL>
+<RequestTimestamp>10/20/2026 11:39:03</RequestTimestamp>
+<ResponseStartTimestamp>10/20/2026 11:39:03</ResponseStartTimestamp>
+<RcopiaServerName>staging-us-erx-rcopia-engine-service-201-c5b7b9654-zrbkk_8080</RcopiaServerName>
+</TraceInformation>
+<Request>
+<Caller>
+<VendorName>[redacted]</VendorName>
+<VendorPassword>[redacted by DrFirst]</VendorPassword>
+</Caller>
+<RcopiaUserName>ssherman</RcopiaUserName>
+<SystemName>[vendor-username]</SystemName>
+<RcopiaPracticeUsername>mb3385</RcopiaPracticeUsername>
+<Request>
+<Command>send_allergy</Command>
+<AllergyList>
+<Allergy>
+<ExternalID>altrixs-cert-alg-1</ExternalID>
+<Deleted>y</Deleted>
+<Patient>
+<RcopiaID>27162725039</RcopiaID>
+</Patient>
+<Allergen>
+<Name>Peanuts</Name>
+</Allergen>
+<ReactionList>
+<Reaction>
+<Description>Hives</Description>
+</Reaction>
+</ReactionList>
+</Allergy>
+</AllergyList>
+</Request>
+</Request>
+<Response>
+<ServerIPAddress>staging-us-erx-rcopia-engine-service-201-c5b7b9654-zrbkk_8080</ServerIPAddress>
+<Status>ok</Status>
+<AllergyList>
+<Allergy>
+<RcopiaID>6184120311</RcopiaID>
+<ExternalID>altrixs-cert-alg-1</ExternalID>
+<Status>deleted</Status>
+<Warning>
+<Code></Code>
+<Text>Reaction saved with SNOMED-CTConceptID '247472004' via match on description</Text>
+</Warning>
+</Allergy>
+</AllergyList>
+</Response>
+<ResponseEndTimestamp>10/20/2026 11:39:03</ResponseEndTimestamp>
+</RCExtResponse>
+

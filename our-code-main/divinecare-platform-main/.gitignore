@@ -1,0 +1,52 @@
+# dependencies
+node_modules/
+
+# next
+.next/
+out/
+
+# env
+.env
+.env.*
+!.env.example
+*service-account*.json
+firebase*.json
+
+# build / cache
+dist/
+build/
+*.tsbuildinfo
+
+# logs / OS
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# uploads
+public/uploads/avatars/*
+!public/uploads/avatars/.gitkeep
+public/uploads/client-avatars/*
+!public/uploads/client-avatars/.gitkeep
+public/uploads/credentials/*
+!public/uploads/credentials/.gitkeep
+
+# Playwright
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# local DB merge reports (may contain record IDs)
+scripts/db-merge/reports/
+backups/
+*.backup.json
+*.journal
+*.tmp
+*.csv
+*Valant*.csv
+*Appointments*.csv
+
+
+# IDE
+.vscode/
+.idea/

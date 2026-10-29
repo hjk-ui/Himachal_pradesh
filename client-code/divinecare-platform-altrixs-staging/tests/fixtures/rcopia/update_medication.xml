@@ -1,0 +1,94 @@
+<Response>
+<LastUpdateDate>10/20/2026 11:08:41</LastUpdateDate>
+<MedicationList>
+<Medication>
+<Deleted>n</Deleted>
+<RcopiaID>27399834964</RcopiaID>
+<ExternalID></ExternalID>
+<Prescription>
+<RcopiaID>SB-61358989377</RcopiaID>
+</Prescription>
+<Patient>
+<RcopiaID>27162725039</RcopiaID>
+<ExternalID>maxpatient</ExternalID>
+<RcopiaPracticeID>2741843271</RcopiaPracticeID>
+<FirstName>Test</FirstName>
+<LastName>Patient</LastName>
+</Patient>
+<Provider>
+<RcopiaID>2741843291</RcopiaID>
+<Username>ssherman</Username>
+<ExternalID>provider1_mb3385</ExternalID>
+<NPI>1234567893</NPI>
+<FirstName>Test</FirstName>
+<LastName>Patient</LastName>
+</Provider>
+<Preparer>
+<RcopiaID>2741843291</RcopiaID>
+<Username>ssherman</Username>
+<ExternalID>provider1_mb3385</ExternalID>
+<FirstName>Test</FirstName>
+<LastName>Patient</LastName>
+</Preparer>
+<DrugCodingLevel>strength</DrugCodingLevel>
+<Sig>
+<Drug>
+<NDCID>00187006301</NDCID>
+<FirstDataBankMedID>278236</FirstDataBankMedID>
+<RcopiaID>28925</RcopiaID>
+<RxnormID>206821</RxnormID>
+<RxnormIDType>SBD</RxnormIDType>
+<DrugDescription>Ativan 0.5 mg tablet</DrugDescription>
+<BrandName>Ativan</BrandName>
+<GenericName>lorazepam</GenericName>
+<Schedule>4</Schedule>
+<BrandType>brand</BrandType>
+<LegendStatus>rx</LegendStatus>
+<Route>oral</Route>
+<Form>tablet</Form>
+<Strength>0.5 mg</Strength>
+</Drug>
+<Dosage>
+<DosageText>Take 1 tablet by mouth twice a day for anxiety</DosageText>
+<InstructionList>
+<Instruction>
+<ClinicalInstruction>Take 1 tablet by mouth twice a day for anxiety</ClinicalInstruction>
+<Sequence>1</Sequence>
+<Action>Take</Action>
+<Dose>1</Dose>
+<DoseUnit>tablet</DoseUnit>
+<Route>by mouth</Route>
+<DoseTiming>twice a day</DoseTiming>
+<DoseOther>for anxiety</DoseOther>
+</Instruction>
+<Number>1</Number>
+</InstructionList>
+</Dosage>
+<Duration>30</Duration>
+<Quantity>60</Quantity>
+<QuantityUnit>tablet</QuantityUnit>
+<Refills>0</Refills>
+<SubstitutionPermitted>y</SubstitutionPermitted>
+<OtherNotes></OtherNotes>
+<MaximumDailyDose></MaximumDailyDose>
+<MaximumDailyDoseUnit></MaximumDailyDoseUnit>
+<Comments></Comments>
+</Sig>
+<StartDate>10/14/2026</StartDate>
+<StopDate>10/30/2026</StopDate>
+<FillDate>10/14/2026</FillDate>
+<StopReason></StopReason>
+<SigChangedDate>10/14/2026 21:50:52 EDT</SigChangedDate>
+<LastModifiedBy>ssherman</LastModifiedBy>
+<LastModifiedDate>10/15/2026 14:24:22 EDT</LastModifiedDate>
+<Height></Height>
+<Weight></Weight>
+<IntendedUse></IntendedUse>
+</Medication>
+<Number>1</Number>
+</MedicationList>
+<Status>ok</Status>
+</Response>
+<ResponseEndTimestamp>10/20/2026 11:08:41</ResponseEndTimestamp>
+</RCExtResponse>
+

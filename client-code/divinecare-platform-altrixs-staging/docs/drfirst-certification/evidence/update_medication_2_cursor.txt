@@ -1,0 +1,62 @@
+# update_medication_2_cursor  (update servlet, DrFirst staging 201)
+# captured 2026-10-20T15:39:01.799Z  HTTP 200  32 ms
+
+=== REQUEST ===
+POST https://update201.staging.drfirst.com/servlet/rcopia.servlet.EngineServlet
+Content-Type: text/xml; charset=UTF-8
+
+<?xml version="1.0" encoding="UTF-8"?>
+<RCExtRequest version="2.54">
+  <Caller>
+    <VendorName>[redacted]</VendorName>
+    <VendorPassword>[redacted]</VendorPassword>
+  </Caller>
+  <RcopiaUserName>ssherman</RcopiaUserName>
+  <SystemName>[vendor-username]</SystemName>
+  <RcopiaPracticeUsername>mb3385</RcopiaPracticeUsername>
+  <Request>
+    <Command>update_medication</Command>
+    <LastUpdateDate>10/20/2026 11:39:01</LastUpdateDate>
+    <Patient>
+      <RcopiaID>27162725039</RcopiaID>
+    </Patient>
+  </Request>
+</RCExtRequest>
+
+=== RESPONSE ===
+<RCExtResponse version="2.54">
+<TraceInformation>
+<RequestMessageID></RequestMessageID>
+<ResponseMessageID>SB-102020261139017-1002549</ResponseMessageID>
+<DestinationURL>https://update201.staging.drfirst.com/servlet/rcopia.servlet.EngineServlet</DestinationURL>
+<RequestTimestamp>10/20/2026 11:39:01</RequestTimestamp>
+<ResponseStartTimestamp>10/20/2026 11:39:01</ResponseStartTimestamp>
+<RcopiaServerName>staging-us-erx-rcopia-engine-service-201-c5b7b9654-zrbkk_8080</RcopiaServerName>
+</TraceInformation>
+<Request>
+<Caller>
+<VendorName>[redacted]</VendorName>
+<VendorPassword>[redacted by DrFirst]</VendorPassword>
+</Caller>
+<RcopiaUserName>ssherman</RcopiaUserName>
+<SystemName>[vendor-username]</SystemName>
+<RcopiaPracticeUsername>mb3385</RcopiaPracticeUsername>
+<Request>
+<Command>update_medication</Command>
+<Patient>
+<RcopiaID>27162725039</RcopiaID>
+</Patient>
+<LastUpdateDate>10/20/2026 11:39:01</LastUpdateDate>
+</Request>
+</Request>
+<Response>
+<ServerIPAddress>staging-us-erx-rcopia-engine-service-201-c5b7b9654-zrbkk_8080</ServerIPAddress>
+<LastUpdateDate>10/20/2026 11:39:01</LastUpdateDate>
+<MedicationList>
+<Number>0</Number>
+</MedicationList>
+<Status>ok</Status>
+</Response>
+<ResponseEndTimestamp>10/20/2026 11:39:01</ResponseEndTimestamp>
+</RCExtResponse>
+

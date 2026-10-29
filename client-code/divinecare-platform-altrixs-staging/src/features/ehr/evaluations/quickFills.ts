@@ -1,0 +1,158 @@
+/** Quick-fill phrases for evaluation fields, keyed by field label (ported from the monorepo evaluations page). */
+export const QUICK_FILLS: Record<string, string[]> = {
+  'Chief Complaint': [
+    'presents reporting persistent depressed mood and anhedonia.',
+    'self-referred following worsening of anxiety symptoms.',
+    'referred by outpatient therapist for psychiatric evaluation.',
+    'presents at the recommendation of primary care provider.',
+  ],
+  'History of Present Illness': [
+    'Reports onset approximately [X] months ago, preceded by [stressor].',
+    'Course has been persistent without significant remission.',
+    'Course has been episodic with periods of relative wellness.',
+    'Current episode represents an escalation of chronic baseline symptoms.',
+  ],
+  'Psychiatric History': [
+    'No prior psychiatric hospitalizations or emergency presentations.',
+    'No prior psychotropic medication trials reported.',
+    'Prior outpatient therapy with [provider]; duration [dates].',
+    'Multiple prior medication trials — partial or no sustained response.',
+  ],
+  'Medical History': [
+    'Denies significant medical history.',
+    'Reports history of [condition]; managed by [provider].',
+    'No known drug allergies (NKDA).',
+    'Allergies: [medication] — [reaction type].',
+  ],
+  'Medical History & Review of Systems': [
+    'No significant active medical conditions.',
+    'ROS positive for [symptoms]; negative for fever, weight loss, chest pain.',
+    'Reports history of [condition]; medically stable.',
+  ],
+  'Social History': [
+    'Lives alone in stable housing.',
+    'Lives with [family member]; housing stable.',
+    'Currently employed [full/part]-time as [occupation].',
+    'Currently unemployed; seeking employment.',
+    'Reports supportive social network.',
+    'Endorses social isolation; limited support system.',
+  ],
+  'Cultural Formulation': [
+    'Identifies culturally as [identity]. Cultural background not a significant treatment barrier.',
+    'Expresses preference for culturally congruent care approaches.',
+    'Denies significant cultural barriers to seeking mental health treatment.',
+  ],
+  'Developmental History': [
+    'Reports unremarkable prenatal and perinatal history by self-report.',
+    'Developmental milestones met within normal limits per self-report.',
+    'No significant childhood behavioral or developmental concerns reported.',
+  ],
+  'Trauma History (ACEs)': [
+    'Denies history of childhood abuse, neglect, or household dysfunction.',
+    'Endorses history of [type]; reports ongoing impact on current presentation.',
+    'ACE score estimated at [X/10] based on client report.',
+    'Trauma history present; client declines to elaborate at this time.',
+  ],
+  'Substance Use History': [
+    'Denies current or past use of alcohol or illicit substances.',
+    'Endorses alcohol use; denies illicit substance use.',
+    'Currently in recovery — [X] days/months/years sobriety.',
+    'Reports polysubstance use history as detailed below.',
+  ],
+  'Legal History': [
+    'Denies current or past legal involvement.',
+    'Reports prior [arrest/conviction] for [charge]; case [resolved/pending].',
+    'Currently on probation/parole; reports compliance with all terms.',
+  ],
+  'Interval History': [
+    'Reports overall [improvement/stability/worsening] since last contact.',
+    'No significant clinical changes since last evaluation.',
+    'Reports increased stressors related to [domain] since last visit.',
+    'Adherent to prescribed medications and therapy per self-report.',
+  ],
+  'Interval History Since Last Eval': [
+    'Overall stable interval with no psychiatric hospitalizations.',
+    'Notable changes include [symptom change / life event].',
+    'Significant improvement in [target symptoms] since last evaluation.',
+  ],
+  'Subjective Complaints': [
+    'Reports [symptoms] as primary concerns today.',
+    'Endorses improved mood and decreased anxiety compared to last visit.',
+    'Endorses worsening of [target symptoms] over the past [timeframe].',
+  ],
+  'Clinical Formulation': [
+    'This [age]-year-old [gender] presents with symptoms consistent with [Dx], understood in the context of [stressors] and [strengths].',
+    'Biological contributors: genetic predisposition, [medical factors].',
+    'Psychological contributors: [cognitive patterns / history].',
+    'Social contributors: [stressors / supports / cultural context].',
+  ],
+  'Biopsychosocial Formulation': [
+    'Biologically, this client carries [diagnoses] with [relevant medical factors].',
+    'Psychologically, formulation reflects [cognitive/emotional themes].',
+    'Socially, [stressors/supports/cultural context] shape the presentation.',
+    'Strengths include: [list]. Protective factors: [list].',
+  ],
+  'Treatment Recommendations': [
+    'Individual therapy [weekly/biweekly] at outpatient level of care.',
+    'Psychiatric medication management recommended alongside therapy.',
+    'Referral to higher level of care not clinically indicated at this time.',
+    'Client appropriate for current level of outpatient services.',
+  ],
+  'Safety Plan': [
+    'Safety plan reviewed and updated. Warning signs: [list]. Coping: [list]. Supports: [name].',
+    '988 Suicide & Crisis Lifeline provided. Client agrees to call if in crisis.',
+    'Means restriction counseled. Client denies access to firearms or lethal means.',
+    'Client contracted for safety; denied active SI at time of evaluation.',
+  ],
+  'PDMP Review': [
+    'PDMP reviewed on [date]. No concerning patterns identified.',
+    'PDMP reviewed. Prescription for [medication] by [provider] on file — no overlapping controlled substances.',
+    'PDMP reviewed. No controlled substances on file for this client.',
+  ],
+  'Prescribing Plan': [
+    'Initiating [medication] [dose] [frequency] for [indication]. Rationale: [reason].',
+    'Increasing [medication] from [dose] to [dose] — partial response noted.',
+    'Discontinuing [medication] due to [side effect/lack of response]; transitioning to [medication].',
+    'Patient education provided regarding dose, side effects, and expected onset. Questions addressed.',
+  ],
+  'Patient Education': [
+    'Education provided regarding diagnosis, treatment rationale, and expected course.',
+    'Medication education: dosing, common side effects, expected onset of action, when to call provider.',
+    'Client verbalized understanding and had opportunity to ask questions.',
+  ],
+  'Safety Plan Review': [
+    'Safety plan reviewed with client. No modifications needed at this time.',
+    'Safety plan updated to reflect current warning signs and supports.',
+    'Client unable to identify protective factors; plan updated and crisis resources reinforced.',
+  ],
+  'Precipitating Event': [
+    'Client presents following [event] which precipitated acute decompensation.',
+    'No single precipitant identified; gradual worsening of baseline symptoms.',
+    'Collateral (family/EMS/mobile crisis) confirms presenting concern.',
+  ],
+  'Disposition Decision & Rationale': [
+    'Client discharged home with safety plan; voluntary basis, crisis services provided.',
+    'Referred to PHP/IOP given [acuity/risk level]; warm handoff completed.',
+    'Voluntary inpatient admission recommended; client agreeable.',
+    'Involuntary hold placed per [state law] due to imminent danger to [self/others].',
+  ],
+  'Referral Source': [
+    'Self-referral.',
+    'Court-ordered evaluation.',
+    'Referred by primary care provider.',
+    'Referred by employer EAP.',
+    'Family-initiated referral.',
+  ],
+  'MAT Candidacy': [
+    'Client meets DSM-5 criteria for OUD — appropriate candidate for buprenorphine therapy.',
+    'Client meets criteria for AUD — naltrexone discussed; client [agreeable/declines].',
+    'MAT not indicated based on current substance use pattern and client preference.',
+    'Methadone maintenance: client to be referred to OTP for evaluation.',
+  ],
+  'Recommended Level of Care': [
+    'ASAM Level 1.0 — Outpatient Services: appropriate given current stability.',
+    'ASAM Level 2.1 — Intensive Outpatient Program: indicated given [rationale].',
+    'ASAM Level 2.5 — Partial Hospitalization: indicated given [rationale].',
+    'ASAM Level 3.1 — Clinically Managed Low-Intensity Residential: indicated.',
+  ],
+};

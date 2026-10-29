@@ -1,0 +1,91 @@
+# get_notification_count  (update servlet, DrFirst staging 201)
+# captured 2026-10-20T15:39:01.486Z  HTTP 200  32 ms
+
+=== REQUEST ===
+POST https://update201.staging.drfirst.com/servlet/rcopia.servlet.EngineServlet
+Content-Type: text/xml; charset=UTF-8
+
+<?xml version="1.0" encoding="UTF-8"?>
+<RCExtRequest version="2.54">
+  <Caller>
+    <VendorName>[redacted]</VendorName>
+    <VendorPassword>[redacted]</VendorPassword>
+  </Caller>
+  <RcopiaUserName>ssherman</RcopiaUserName>
+  <SystemName>[vendor-username]</SystemName>
+  <RcopiaPracticeUsername>mb3385</RcopiaPracticeUsername>
+  <Request>
+    <Command>get_notification_count</Command>
+    <ReturnPrescriptionIDs>y</ReturnPrescriptionIDs>
+    <ReturnRefillIDs>y</ReturnRefillIDs>
+    <ReturnRxChangeIDs>y</ReturnRxChangeIDs>
+    <ReturnTherapyRequestIDs>y</ReturnTherapyRequestIDs>
+  </Request>
+</RCExtRequest>
+
+=== RESPONSE ===
+<RCExtResponse version="2.54">
+<TraceInformation>
+<RequestMessageID></RequestMessageID>
+<ResponseMessageID>SB-102020261139014-1002546</ResponseMessageID>
+<DestinationURL>https://update201.staging.drfirst.com/servlet/rcopia.servlet.EngineServlet</DestinationURL>
+<RequestTimestamp>10/20/2026 11:39:01</RequestTimestamp>
+<ResponseStartTimestamp>10/20/2026 11:39:01</ResponseStartTimestamp>
+<RcopiaServerName>staging-us-erx-rcopia-engine-service-201-c5b7b9654-zrbkk_8080</RcopiaServerName>
+</TraceInformation>
+<Request>
+<Caller>
+<VendorName>[redacted]</VendorName>
+<VendorPassword>[redacted by DrFirst]</VendorPassword>
+</Caller>
+<RcopiaUserName>ssherman</RcopiaUserName>
+<SystemName>[vendor-username]</SystemName>
+<RcopiaPracticeUsername>mb3385</RcopiaPracticeUsername>
+<Request>
+<Command>get_notification_count</Command>
+<ReturnPrescriptionIDs>y</ReturnPrescriptionIDs>
+<ReturnRefillIDs>y</ReturnRefillIDs>
+<ReturnRxChangeIDs>y</ReturnRxChangeIDs>
+<ReturnTherapyRequestIDs>y</ReturnTherapyRequestIDs>
+</Request>
+</Request>
+<Response>
+<ServerIPAddress>staging-us-erx-rcopia-engine-service-201-c5b7b9654-zrbkk_8080</ServerIPAddress>
+<NotificationCountList>
+<NotificationCount>
+<Type>refill</Type>
+<Number>0</Number>
+</NotificationCount>
+<NotificationCount>
+<Type>rxchange</Type>
+<Number>0</Number>
+</NotificationCount>
+<NotificationCount>
+<Type>therapy_request</Type>
+<Number>0</Number>
+</NotificationCount>
+<NotificationCount>
+<Type>rx_pending</Type>
+<Number>1</Number>
+<Prescription>
+<RcopiaID>SB-61360164576</RcopiaID>
+<Provider>
+<Username>ssherman</Username>
+<ExternalID>provider1_mb3385</ExternalID>
+</Provider>
+</Prescription>
+</NotificationCount>
+<NotificationCount>
+<Type>rx_need_signing</Type>
+<Number>0</Number>
+</NotificationCount>
+<NotificationCount>
+<Type>rx_orders_pending</Type>
+<Number>0</Number>
+</NotificationCount>
+</NotificationCountList>
+<Status>ok</Status>
+</Response>
+<ResponseEndTimestamp>10/20/2026 11:39:01</ResponseEndTimestamp>
+</RCExtResponse>
+

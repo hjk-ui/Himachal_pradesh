@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "incremental": false, "plugins": [] },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "scripts/measures-send.ts", "tests/oct24-today-measures.test.ts"],
+  "exclude": ["node_modules", ".next", "apps", "scratch", "training-videos"]
+}

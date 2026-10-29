@@ -1,0 +1,96 @@
+import { NextResponse } from 'next/server';
+import { z } from 'zod';
+import { requireOrgContext } from '@/lib/auth/tenant';
+import { prisma } from '@/lib/db/prisma';
+import { clientByIdWhere } from '@/lib/clients/orgScope';
+
+export const runtime = 'nodejs';
+
+const breakGlassSchema = z.object({
+  reason: z.string().trim().min(15, 'Reason must be at least 15 characters').max(1000),
+});
+
+/** POST /api/sensitive-records/[clientId]/break-glass — 24h emergency grant */
+export async function POST(
+  req: Request,
+  ctx: { params: Promise<{ clientId: string }> }
+) {
+  const gate = await requireOrgContext();
+  if (!gate.ok) {
+    return NextResponse.json({ success: false, error: gate.error }, { status: gate.status });
+  }
+
+  try {
+    const { clientId } = await ctx.params;
+    const body = breakGlassSchema.parse(await req.json());
+
+    const client = await prisma.client.findFirst({
+      where: clientByIdWhere(clientId, gate.organizationId),
+      select: { id: true },
+    });
+    if (!client) {
+      return NextResponse.json({ success: false, error: 'Client not found' }, { status: 404 });
+    }
+
+    const protectedRec = await prisma.sensitiveRecord.findFirst({
+      where: { clientId, organizationId: gate.organizationId },
+      select: { id: true },
+    });
+    if (!protectedRec) {
+      return NextResponse.json(
+        { success: false, error: 'Client is not a protected record' },
+        { status: 400 }
+      );
+    }
+
+    const grantedAt = new Date();
+    const expiresAt = new Date(grantedAt.getTime() + 24 * 60 * 60 * 1000);
+
+    const [grant] = await prisma.$transaction([
+      prisma.breakTheGlassGrant.create({
+        data: {
+          organizationId: gate.organizationId,
+          clientId,
+          userId: gate.userId,
+          reason: body.reason,
+          grantedAt,
+          expiresAt,
+        },
+      }),
+      prisma.sensitiveAccessLog.create({
+        data: {
+          organizationId: gate.organizationId,
+          clientId,
+          userId: gate.userId,
+          accessType: 'break_the_glass',
+          path: `/api/sensitive-records/${clientId}/break-glass`,
+          reason: body.reason,
+        },
+      }),
+    ]);
+
+    return NextResponse.json({
+      success: true,
+      grant: {
+        id: grant.id,
+        clientId: grant.clientId,
+        userId: grant.userId,
+        reason: grant.reason,
+        grantedAt: grant.grantedAt.toISOString(),
+        expiresAt: grant.expiresAt.toISOString(),
+      },
+    });
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        { success: false, error: err.issues[0]?.message || 'Invalid request' },
+        { status: 400 }
+      );
+    }
+    console.error('[break-glass POST]', err);
+    return NextResponse.json(
+      { success: false, error: 'Could not create break-glass grant' },
+      { status: 500 }
+    );
+  }
+}

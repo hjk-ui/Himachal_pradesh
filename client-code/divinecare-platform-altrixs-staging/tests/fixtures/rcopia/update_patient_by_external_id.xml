@@ -1,0 +1,45 @@
+<Response>
+<Status>ok</Status>
+<PatientList>
+<Patient>
+<Deleted>n</Deleted>
+<MedHxStatus></MedHxStatus>
+<RcopiaID>27162725039</RcopiaID>
+<ExternalID>maxpatient</ExternalID>
+<RcopiaPracticeID>2741843271</RcopiaPracticeID>
+<FirstName>Test</FirstName>
+<MiddleName>Q</MiddleName>
+<LastName>Patient</LastName>
+<Suffix></Suffix>
+<Prefix></Prefix>
+<DOB>01/02/1980</DOB>
+<Sex>m</Sex>
+<EmailAddress></EmailAddress>
+<Weight>54.43</Weight>
+<WeightUnit>kg</WeightUnit>
+<Height>149.86</Height>
+<HeightUnit>cm</HeightUnit>
+<BSA></BSA>
+<BSAUnit></BSAUnit>
+<ObservationDate>04/01/2019</ObservationDate>
+<Pregnant>n</Pregnant>
+<Breastfeeding>n</Breastfeeding>
+<HomePhone>(555) 555-0100</HomePhone>
+<MobilePhone>(555) 555-0100</MobilePhone>
+<WorkPhone></WorkPhone>
+<OtherPhone></OtherPhone>
+<Address1>1 Test St</Address1>
+<Address2>Apt 1</Address2>
+<City>Testville</City>
+<State>CA</State>
+<Zip>00000</Zip>
+<SSN></SSN>
+<PharmacyCardNumber></PharmacyCardNumber>
+<LastVisitDate></LastVisitDate>
+<Location></Location>
+</Patient>
+</PatientList>
+</Response>
+<ResponseEndTimestamp>10/16/2026 22:28:25</ResponseEndTimestamp>
+</RCExtResponse>
+

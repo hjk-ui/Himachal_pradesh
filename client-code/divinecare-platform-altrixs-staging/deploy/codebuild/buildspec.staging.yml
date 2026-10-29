@@ -1,0 +1,30 @@
+version: 0.2
+env:
+  variables:
+    BUCKET: altrixs-staging-artifacts-792233689095
+    ALTRIXS_ENV: staging
+    NEXT_PUBLIC_PRICING_APPROVED: "true"
+    DATABASE_URL: "postgresql://build:build@127.0.0.1:5432/build"
+    NEXT_TELEMETRY_DISABLED: "1"
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+  pre_build:
+    commands:
+      - test -n "$BUNDLE_KEY" && test -n "$COMMIT"
+      - aws s3 cp "s3://$BUCKET/$BUNDLE_KEY" /tmp/src.bundle --only-show-errors
+      - git clone -q /tmp/src.bundle "$CODEBUILD_SRC_DIR/app" && cd "$CODEBUILD_SRC_DIR/app" && git checkout -q "$COMMIT"
+      - cd "$CODEBUILD_SRC_DIR/app" && test "$(git rev-parse --short=7 HEAD)" = "$COMMIT"
+      - cd "$CODEBUILD_SRC_DIR/app" && npm ci --no-audit --no-fund --loglevel=error
+      - cd "$CODEBUILD_SRC_DIR/app" && (aws s3 cp "s3://$BUCKET/build-cache/next-cache.tar.gz" /tmp/next-cache.tar.gz --only-show-errors && mkdir -p .next && tar xzf /tmp/next-cache.tar.gz -C .next) || echo "no build cache"
+  build:
+    commands:
+      - cd "$CODEBUILD_SRC_DIR/app" && export ALTRIXS_COMMIT="$COMMIT" && NODE_OPTIONS=--max-old-space-size=12288 npm run build
+  post_build:
+    commands:
+      - cd "$CODEBUILD_SRC_DIR/app" && test -f .next/BUILD_ID && echo "$COMMIT" > .next/ALTRIXS_BUILD_COMMIT
+      - cd "$CODEBUILD_SRC_DIR/app" && tar czf /tmp/next-build.tar.gz --exclude=./cache -C .next .
+      - aws s3 cp /tmp/next-build.tar.gz "s3://$BUCKET/builds/$COMMIT.tar.gz" --only-show-errors
+      - cd "$CODEBUILD_SRC_DIR/app" && tar czf /tmp/next-cache.tar.gz -C .next cache && aws s3 cp /tmp/next-cache.tar.gz "s3://$BUCKET/build-cache/next-cache.tar.gz" --only-show-errors || true
+      - echo "uploaded builds/$COMMIT.tar.gz"

@@ -1,0 +1,36 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: America/New_York
+    open-pull-requests-limit: 10
+    labels: [dependencies]
+    groups:
+      # One PR per week for all non-breaking updates; majors stay separate so each can be reviewed.
+      npm-minor-patch:
+        update-types: [minor, patch]
+    ignore:
+      # Prisma 7 is a planned, separate upgrade (driver adapters + generator changes). See docs/security-scanning.md.
+      - dependency-name: prisma
+        update-types: [version-update:semver-major]
+      - dependency-name: '@prisma/client'
+        update-types: [version-update:semver-major]
+      # Tailwind 4 is a rewrite of the config/build pipeline; upgrade deliberately.
+      - dependency-name: tailwindcss
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '06:00'
+      timezone: America/New_York
+    labels: [dependencies, ci]
+    groups:
+      github-actions:
+        patterns: ['*']

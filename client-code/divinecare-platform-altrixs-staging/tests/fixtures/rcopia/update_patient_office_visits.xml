@@ -1,0 +1,30 @@
+<Response>
+<Status>ok</Status>
+<LastUpdateDate>10/16/2026 22:28:28</LastUpdateDate>
+<OfficeVisitList>
+<OfficeVisit>
+<Deleted>y</Deleted>
+<RcopiaID>6191175287</RcopiaID>
+<ExternalID>altrixs-probe-visit-1</ExternalID>
+<Patient>
+<RcopiaID>27162725039</RcopiaID>
+<ExternalID>maxpatient</ExternalID>
+<RcopiaPracticeID>2741843271</RcopiaPracticeID>
+<FirstName>Test</FirstName>
+<MiddleName>Q</MiddleName>
+<LastName>Patient</LastName>
+</Patient>
+<OfficeVisitDate>10/16/2026</OfficeVisitDate>
+<RawOfficeVisitDate>10/16/2026</RawOfficeVisitDate>
+<RenderingProvider>
+<RcopiaID>2741843291</RcopiaID>
+<Username>ssherman</Username>
+<ExternalID>provider1_mb3385</ExternalID>
+</RenderingProvider>
+</OfficeVisit>
+<Number>1</Number>
+</OfficeVisitList>
+</Response>
+<ResponseEndTimestamp>10/16/2026 22:28:28</ResponseEndTimestamp>
+</RCExtResponse>
+

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <title>Altrixs — Developer Delivery Plan (8 Weeks)</title>
+  <style>
+    @page { size: A4; margin: 16mm 14mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      line-height: 1.45;
+      color: #111827;
+    }
+    h1 { font-size: 22px; margin: 0 0 6px; color: #0F5C56; }
+    h2 {
+      font-size: 15px;
+      margin: 22px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid #0F5C56;
+      color: #0F5C56;
+      page-break-after: avoid;
+    }
+    h3 { font-size: 12.5px; margin: 14px 0 6px; color: #134e4a; page-break-after: avoid; }
+    p, li { margin: 4px 0; }
+    .meta { color: #4b5563; margin-bottom: 14px; }
+    .badge {
+      display: inline-block;
+      padding: 1px 7px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .ok { background: #d1fae5; color: #065f46; }
+    .partial { background: #fef3c7; color: #92400e; }
+    .todo { background: #fee2e2; color: #991b1b; }
+    .proto { background: #e0e7ff; color: #3730a3; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px;
+      font-size: 10.5px;
+    }
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 5px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #f0fdfa; color: #134e4a; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 10px;
+      background: #f3f4f6;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+    .box {
+      border: 1px solid #99f6e4;
+      background: #f0fdfa;
+      padding: 8px 10px;
+      border-radius: 6px;
+      margin: 8px 0 12px;
+    }
+    .warn {
+      border-color: #fcd34d;
+      background: #fffbeb;
+    }
+    ul { padding-left: 18px; margin: 4px 0 10px; }
+    .page-break { page-break-before: always; }
+    footer {
+      margin-top: 20px;
+      padding-top: 8px;
+      border-top: 1px solid #e5e7eb;
+      color: #6b7280;
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Altrixs Platform — Developer Delivery Document</h1>
+  <p class="meta">
+    <strong>Audience:</strong> Developers (backend + frontend)<br />
+    <strong>Language:</strong> Hinglish<br />
+    <strong>Timeline:</strong> 8 weeks total · Week 1 (Auth) DONE<br />
+    <strong>Remaining:</strong> Weeks 2–8<br />
+    <strong>Stack:</strong> Next.js 16 · NextAuth v5 · Prisma · PostgreSQL · org-scoped multi-tenant
+  </p>
+
+  <div class="box">
+    <strong>Product model (short):</strong>
+    Altrixs = platform company. Clinics/hospitals = Organizations.
+    Super Admin (<code>/platform</code>) orgs manage karta hai.
+    Clinic staff (<code>/dashboard</code>) sirf apni org mein kaam karta hai.
+  </div>
+
+  <!-- ===================== -->
+  <h2>1. Roles &amp; Access (quick)</h2>
+  <table>
+    <thead>
+      <tr><th>Role</th><th>Portal</th><th>Scope</th><th>Main kaam</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>SUPER_ADMIN</code></td><td><code>/platform</code></td><td>Saari orgs</td><td>Org create/suspend, cross-org users</td></tr>
+      <tr><td><code>ADMIN</code></td><td><code>/dashboard</code></td><td>Apni org</td><td>Staff invite, locations, full clinic control</td></tr>
+      <tr><td><code>DIRECTOR</code></td><td><code>/dashboard</code></td><td>Apni org</td><td>Ops oversight, reports</td></tr>
+      <tr><td><code>CLINICIAN</code></td><td><code>/dashboard</code></td><td>Assigned clients</td><td>Patients, appointments, alerts</td></tr>
+      <tr><td><code>FRONT_DESK</code></td><td><code>/dashboard</code></td><td>Apni org</td><td>Schedule, check-in, intake</td></tr>
+      <tr><td><code>BILLING</code></td><td><code>/dashboard</code></td><td>Apni org</td><td>Billing workflows</td></tr>
+      <tr><td><code>HR</code></td><td><code>/dashboard</code></td><td>Apni org</td><td>Staff directory / people ops</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Rule:</strong> Clinic APIs pe <code>requireOrgContext()</code>. Platform pe <code>requirePlatformAdmin()</code>. Client-sent <code>organizationId</code> trust mat karo.</p>
+
+  <!-- ===================== -->
+  <h2>2. Status legend</h2>
+  <p>
+    <span class="badge ok">LIVE</span> API + screen wired &nbsp;
+    <span class="badge partial">PARTIAL</span> Screen hai, API incomplete / demo mix &nbsp;
+    <span class="badge proto">UI ONLY</span> Prototype screen, backend pending &nbsp;
+    <span class="badge todo">TODO</span> Abhi banana hai
+  </p>
+
+  <!-- ===================== -->
+  <h2>3. Screens — existing + API mapping</h2>
+
+  <h3>3.1 Auth &amp; platform (mostly LIVE)</h3>
+  <table>
+    <thead>
+      <tr><th>Screen</th><th>Path</th><th>Status</th><th>Related APIs (existing)</th><th>Dev notes / pending</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Login / setup / forgot password</td>
+        <td><code>/login</code></td>
+        <td><span class="badge ok">LIVE</span></td>
+        <td><code>/api/auth/*</code>, setup, OTP, password reset</td>
+        <td>Week 1 DONE</td>
+      </tr>
+      <tr>
+        <td>Invite accept</td>
+        <td><code>/invite/accept</code></td>
+        <td><span class="badge ok">LIVE</span></td>
+        <td><code>GET/POST /api/staff/invite/accept</code></td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Platform orgs</td>
+        <td><code>/platform</code></td>
+        <td><span class="badge ok">LIVE</span></td>
+        <td><code>GET/POST /api/platform/orgs</code></td>
+        <td>Invite first clinic ADMIN from platform (nice-to-have)</td>
+      </tr>
+      <tr>
+        <td>Platform org detail</td>
+        <td><code>/platform/orgs/[id]</code></td>
+        <td><span class="badge ok">LIVE</span></td>
+        <td><code>GET/PATCH /api/platform/orgs/[id]</code></td>
+        <td>Activity metrics baad mein</td>
+      </tr>
+      <tr>
+        <td>Platform users</td>
+        <td><code>/platform/users</code></td>
+        <td><span class="badge ok">LIVE</span></td>
+        <td><code>GET /api/platform/users</code>, <code>PATCH .../users/[id]</code></td>
+        <td>Resend invite from platform <span class="badge todo">TODO</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>3.2 Clinic dashboard — LIVE / PARTIAL</h3>
+  <table>
+    <thead>
+      <tr><th>Screen</th><th>Path</th><th>Status</th><th>APIs abhi</th><th>Jo APIs / work baaki</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Overview</td>
+        <td><code>/dashboard</code></td>
+        <td><span class="badge ok">LIVE</span></td>
+        <td><code>GET /api/dashboard/overview</code></td>
+        <td>Alerts/messages counts abhi DB se; jab alerts/messages APIs live hon to sync rakho</td>
+      </tr>
+      <tr>
+        <td>Clients list + intake</td>
+        <td><code>/dashboard/clients</code></td>
+        <td><span class="badge ok">LIVE</span></td>
+        <td><code>GET/POST /api/clients</code></td>
+        <td>Filters/search query params polish</td>
+      </tr>
+      <tr>
+        <td>Client detail</td>
+        <td><code>/dashboard/clients/[id]</code></td>
+        <td><span class="badge partial">PARTIAL</span></td>
+        <td><code>GET/PATCH /api/clients/[id]</code> (basic)</td>
+        <td>
+          Screen DEMO data use karti hai.<br />
+          Need: <code>GET .../check-ins</code>, notes, related alerts, appointments history
+        </td>
+      </tr>
+      <tr>
+        <td>Appointments</td>
+        <td><code>/dashboard/appointments</code></td>
+        <td><span class="badge ok">LIVE</span></td>
+        <td><code>GET/POST /api/appointments</code>, <code>PATCH .../[id]</code></td>
+        <td>Cancel reason, reschedule fields optional</td>
+      </tr>
+      <tr>
+        <td>Admin (staff + locations)</td>
+        <td><code>/dashboard/admin</code></td>
+        <td><span class="badge partial">PARTIAL</span></td>
+        <td>staff + locations + org APIs LIVE; audit tabs mock</td>
+        <td><code>/api/audit-logs</code> <span class="badge todo">TODO</span></td>
+      </tr>
+      <tr>
+        <td>HR</td>
+        <td><code>/dashboard/hr</code></td>
+        <td><span class="badge partial">PARTIAL</span></td>
+        <td>Staff list APIs</td>
+        <td>Credential expiry real fields / NPI UI polish</td>
+      </tr>
+      <tr>
+        <td>Settings / profile</td>
+        <td><code>/dashboard/settings</code></td>
+        <td><span class="badge ok">LIVE</span></td>
+        <td><code>/api/profile</code>, avatar</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Alerts</td>
+        <td><code>/dashboard/alerts</code></td>
+        <td><span class="badge proto">UI ONLY</span></td>
+        <td>Client mocks only (Prisma model ready)</td>
+        <td><code>GET/PATCH /api/risk-alerts</code> <span class="badge todo">TODO</span></td>
+      </tr>
+      <tr>
+        <td>Messages</td>
+        <td><code>/dashboard/messages</code></td>
+        <td><span class="badge proto">UI ONLY</span></td>
+        <td>Mocks only (Prisma Message ready)</td>
+        <td><code>/api/messages</code> threads + send <span class="badge todo">TODO</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>3.3 Prototype screens (UI hai, product APIs pending)</h3>
+  <table>
+    <thead>
+      <tr><th>Screen</th><th>Path</th><th>Status</th><th>Banegi APIs (planned)</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Billing</td>
+        <td><code>/dashboard/billing</code></td>
+        <td><span class="badge proto">UI ONLY</span></td>
+        <td><code>/api/billing/claims</code>, invoices, payments, insurance summary</td>
+      </tr>
+      <tr>
+        <td>Telehealth</td>
+        <td><code>/dashboard/telehealth</code></td>
+        <td><span class="badge proto">UI ONLY</span></td>
+        <td><code>/api/telehealth/sessions</code> (create room link, status)</td>
+      </tr>
+      <tr>
+        <td>AI Insights</td>
+        <td><code>/dashboard/ai-insights</code></td>
+        <td><span class="badge proto">UI ONLY</span></td>
+        <td><code>/api/insights/*</code> (risk trends, suggestions — can stub first)</td>
+      </tr>
+      <tr>
+        <td>Reports</td>
+        <td><code>/dashboard/reports</code></td>
+        <td><span class="badge proto">UI ONLY</span></td>
+        <td><code>/api/reports/summary</code>, export CSV</td>
+      </tr>
+      <tr>
+        <td>Resources</td>
+        <td><code>/dashboard/resources</code></td>
+        <td><span class="badge proto">UI ONLY</span></td>
+        <td><code>/api/resources</code> (CRUD content library)</td>
+      </tr>
+      <tr>
+        <td>PRP</td>
+        <td><code>/dashboard/prp</code></td>
+        <td><span class="badge proto">UI ONLY</span></td>
+        <td><code>/api/prp/plans</code>, goals, progress notes</td>
+      </tr>
+      <tr>
+        <td>Community</td>
+        <td><code>/dashboard/community</code></td>
+        <td><span class="badge proto">UI ONLY</span></td>
+        <td><code>/api/community/posts</code> (optional phase)</td>
+      </tr>
+      <tr>
+        <td>PR / marketing</td>
+        <td><code>/dashboard/pr</code></td>
+        <td><span class="badge proto">UI ONLY</span></td>
+        <td><code>/api/pr/campaigns</code> (optional / later)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ===================== -->
+  <div class="page-break"></div>
+  <h2>4. APIs — already LIVE</h2>
+  <table>
+    <thead>
+      <tr><th>Area</th><th>Endpoints</th><th>Auth gate</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Auth</td>
+        <td>
+          <code>/api/auth/[...nextauth]</code><br />
+          <code>/api/auth/setup</code><br />
+          <code>/api/auth/otp/request</code>, <code>verify-reset</code><br />
+          <code>/api/auth/password/reset</code>
+        </td>
+        <td>Public / session</td>
+      </tr>
+      <tr>
+        <td>Platform</td>
+        <td>
+          <code>GET/POST /api/platform/orgs</code><br />
+          <code>GET/PATCH /api/platform/orgs/[id]</code><br />
+          <code>GET /api/platform/users</code><br />
+          <code>PATCH /api/platform/users/[id]</code>
+        </td>
+        <td>SUPER_ADMIN</td>
+      </tr>
+      <tr>
+        <td>Org / locations</td>
+        <td>
+          <code>GET /api/org</code><br />
+          <code>GET/POST /api/locations</code><br />
+          <code>PATCH/DELETE /api/locations/[id]</code>
+        </td>
+        <td>Org context / Admin</td>
+      </tr>
+      <tr>
+        <td>Staff</td>
+        <td>
+          <code>GET/POST /api/staff</code><br />
+          <code>PATCH /api/staff/[id]</code><br />
+          <code>POST /api/staff/invite</code>, resend, accept
+        </td>
+        <td>Admin / HR (scoped)</td>
+      </tr>
+      <tr>
+        <td>Clients</td>
+        <td><code>GET/POST /api/clients</code>, <code>GET/PATCH /api/clients/[id]</code></td>
+        <td>Org context</td>
+      </tr>
+      <tr>
+        <td>Appointments</td>
+        <td><code>GET/POST /api/appointments</code>, <code>PATCH /api/appointments/[id]</code></td>
+        <td>Org context</td>
+      </tr>
+      <tr>
+        <td>Dashboard / profile</td>
+        <td><code>GET /api/dashboard/overview</code>, <code>/api/profile</code>, avatar</td>
+        <td>Org / session</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ===================== -->
+  <h2>5. APIs — jo banegi (priority order)</h2>
+  <div class="box warn">
+    Har nayi clinic API pe org-scope mandatory. Prisma pe models pehle se hain for RiskAlert, Message, CheckIn — unko wire karo pehle.
+  </div>
+
+  <h3>P0 — Clinical core complete (screens already exist)</h3>
+  <table>
+    <thead>
+      <tr><th>API</th><th>Methods</th><th>Screen</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>/api/risk-alerts</code></td>
+        <td>GET (list, unreviewed filter)</td>
+        <td>Alerts, Overview</td>
+        <td>Replace mocks in <code>alertsApi.ts</code></td>
+      </tr>
+      <tr>
+        <td><code>/api/risk-alerts/[id]/review</code></td>
+        <td>PATCH</td>
+        <td>Alerts</td>
+        <td>reviewed=true + note optional</td>
+      </tr>
+      <tr>
+        <td><code>/api/messages/threads</code></td>
+        <td>GET</td>
+        <td>Messages</td>
+        <td>Inbox list (client threads)</td>
+      </tr>
+      <tr>
+        <td><code>/api/messages/threads/[id]</code></td>
+        <td>GET</td>
+        <td>Messages</td>
+        <td>Thread messages</td>
+      </tr>
+      <tr>
+        <td><code>/api/messages</code></td>
+        <td>POST</td>
+        <td>Messages</td>
+        <td>Staff send message</td>
+      </tr>
+      <tr>
+        <td><code>/api/clients/[id]/check-ins</code></td>
+        <td>GET (POST later for mobile)</td>
+        <td>Client detail</td>
+        <td>Charts ke liye</td>
+      </tr>
+      <tr>
+        <td><code>/api/clients/[id]/notes</code></td>
+        <td>GET/POST</td>
+        <td>Client detail</td>
+        <td>Naya Note model add karna padega</td>
+      </tr>
+      <tr>
+        <td><code>/api/clients/[id]</code> expand</td>
+        <td>GET</td>
+        <td>Client detail</td>
+        <td>Include related appointments/alerts summary — DEMO_CLIENT hatao</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>P1 — Billing + reports (screens UI already)</h3>
+  <table>
+    <thead>
+      <tr><th>API</th><th>Methods</th><th>Screen</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>/api/billing/claims</code></td><td>GET/POST, PATCH status</td><td>Billing</td></tr>
+      <tr><td><code>/api/billing/invoices</code></td><td>GET/POST</td><td>Billing</td></tr>
+      <tr><td><code>/api/billing/payments</code></td><td>GET/POST</td><td>Billing</td></tr>
+      <tr><td><code>/api/reports/summary</code></td><td>GET (date range)</td><td>Reports</td></tr>
+      <tr><td><code>/api/reports/export</code></td><td>GET CSV</td><td>Reports</td></tr>
+    </tbody>
+  </table>
+
+  <h3>P2 — Telehealth, PRP, resources, insights</h3>
+  <table>
+    <thead>
+      <tr><th>API</th><th>Methods</th><th>Screen</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>/api/telehealth/sessions</code></td><td>GET/POST, PATCH status</td><td>Telehealth</td></tr>
+      <tr><td><code>/api/prp/plans</code></td><td>CRUD + progress</td><td>PRP</td></tr>
+      <tr><td><code>/api/resources</code></td><td>CRUD</td><td>Resources</td></tr>
+      <tr><td><code>/api/insights/overview</code></td><td>GET (can compute from existing data)</td><td>AI Insights</td></tr>
+      <tr><td><code>/api/audit-logs</code></td><td>GET</td><td>Admin audit tabs</td></tr>
+    </tbody>
+  </table>
+
+  <h3>P3 — Optional / later</h3>
+  <ul>
+    <li><code>/api/community/*</code>, <code>/api/pr/*</code></li>
+    <li>Platform: invite clinic ADMIN directly, “view as org” (PHI careful)</li>
+    <li>Self-serve org signup (abhi Super Admin onboard karta hai)</li>
+  </ul>
+
+  <!-- ===================== -->
+  <div class="page-break"></div>
+  <h2>6. Weekly plan (8 weeks) — Week 1 DONE</h2>
+  <p class="meta">Assumption: 1 focused squad (backend + frontend). Har week ke end pe demo + merge-ready PR.</p>
+
+  <table>
+    <thead>
+      <tr><th>Week</th><th>Focus</th><th>Deliverables</th><th>Exit criteria</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1</strong><br /><span class="badge ok">DONE</span></td>
+        <td>Authentication + tenancy base</td>
+        <td>
+          NextAuth login/password/OTP reset, invite accept,<br />
+          org-scoped session, SUPER_ADMIN + <code>/platform</code>, staff/locations basics
+        </td>
+        <td>Login works; multi-org isolation; platform console usable</td>
+      </tr>
+      <tr>
+        <td><strong>2</strong></td>
+        <td>Clinical core harden</td>
+        <td>
+          Client detail DEMO hatao → live APIs<br />
+          Check-ins API + charts wire<br />
+          Client notes model + API<br />
+          Appointments UX polish (filters)
+        </td>
+        <td>Client detail 100% live data; no DEMO_* in clients/[id]</td>
+      </tr>
+      <tr>
+        <td><strong>3</strong></td>
+        <td>Alerts + Messages LIVE</td>
+        <td>
+          <code>/api/risk-alerts*</code><br />
+          <code>/api/messages*</code><br />
+          Feature APIs mocks → live<br />
+          Overview badges real
+        </td>
+        <td>Alerts review + messaging inbox production path</td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td>Admin / HR / audit</td>
+        <td>
+          Admin mock audit → <code>/api/audit-logs</code><br />
+          HR credentials fields real<br />
+          Platform: invite first ADMIN to new org<br />
+          Suspended-org UX messages
+        </td>
+        <td>Clinic ops screens without fake audit data</td>
+      </tr>
+      <tr>
+        <td><strong>5</strong></td>
+        <td>Billing v1</td>
+        <td>
+          Claims/invoices/payments schema + APIs<br />
+          Wire <code>/dashboard/billing</code><br />
+          Role gates BILLING/ADMIN/DIRECTOR
+        </td>
+        <td>Billing list/create/status change live</td>
+      </tr>
+      <tr>
+        <td><strong>6</strong></td>
+        <td>Reports + Insights stub</td>
+        <td>
+          Reports summary + CSV export<br />
+          Insights overview from real aggregates<br />
+          Dashboard/report consistency
+        </td>
+        <td>Reports page live numbers; export works</td>
+      </tr>
+      <tr>
+        <td><strong>7</strong></td>
+        <td>Telehealth + PRP + Resources</td>
+        <td>
+          Telehealth session create/join link (provider can be stub)<br />
+          PRP plans CRUD<br />
+          Resources library CRUD<br />
+          Wire existing UI pages
+        </td>
+        <td>3 prototype pages → partial/live</td>
+      </tr>
+      <tr>
+        <td><strong>8</strong></td>
+        <td>Hardening + ship</td>
+        <td>
+          E2E smoke (platform onboard → clinic day)<br />
+          Perf/index/org leak tests<br />
+          Deploy checklist (EC2), seed/docs<br />
+          Community/PR only if time else park
+        </td>
+        <td>Staging demo-ready for clinics; known gaps written</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Week-by-week ownership suggestion</h3>
+  <ul>
+    <li><strong>Backend:</strong> Prisma models, route handlers, org scoping, seed updates</li>
+    <li><strong>Frontend:</strong> DEMO/mocks remove, feature API hooks, empty/error states</li>
+    <li><strong>Shared every week:</strong> roleAccess nav badges, typecheck, manual smoke on <code>/login</code> + 1 clinic flow + platform</li>
+  </ul>
+
+  <!-- ===================== -->
+  <h2>7. Definition of Done (har feature)</h2>
+  <ul>
+    <li>API org-scoped + wrong-org → 403/404</li>
+    <li>UI role ke hisaab se accessible (<code>roleAccess</code>)</li>
+    <li>Mocks/DEMO removed for that screen</li>
+    <li><code>npm run typecheck</code> pass</li>
+    <li>Happy path + unauthorized path manually tested</li>
+    <li>Seed/data for local demo updated if needed</li>
+  </ul>
+
+  <!-- ===================== -->
+  <h2>8. Local setup (dev quick)</h2>
+  <div class="box">
+    <code>cp .env.example .env</code> → <code>DATABASE_URL</code>, <code>AUTH_SECRET</code>, <code>AUTH_URL=http://localhost:3000</code><br />
+    <code>npx prisma db push && npm run db:seed</code><br />
+    Platform admin: <code>npm run db:create-platform-admin</code><br />
+    <code>npm run dev</code> → clinic: <code>admin@altrixs.local</code> / <code>Altrixs@123</code>
+  </div>
+
+  <!-- ===================== -->
+  <h2>9. Risk &amp; notes for developers</h2>
+  <ul>
+    <li><strong>Don’t</strong> call missing APIs when <code>DATABASE_URL</code> set — alerts/messages pehle se mock-gated rakhe hain until Week 3.</li>
+    <li><strong>lib → features import forbidden</strong> — shared types <code>src/types/*</code> mein.</li>
+    <li>Browser fetch = <code>apiJson</code> from <code>lib/api-client.ts</code>.</li>
+    <li>Community/PR low priority — Week 8 buffer mein hi touch karo.</li>
+    <li>Telehealth video vendor (Daily/Twilio) integration Week 7 mein stub-first OK.</li>
+  </ul>
+
+  <footer>
+    Altrixs Developer Delivery Document · 8-week plan · Generated for engineering handoff ·
+    Stack: Next.js + Prisma + PostgreSQL multi-tenant
+  </footer>
+
+</body>
+</html>

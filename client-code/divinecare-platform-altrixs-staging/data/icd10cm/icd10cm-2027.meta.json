@@ -1,0 +1,87 @@
+{
+  "fiscalYear": 2027,
+  "label": "FY2027",
+  "effective": "2026-10-01",
+  "source": "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/icd10cm-code-descriptions-2027.zip",
+  "sourceFile": "icd10cm-order-2027.txt",
+  "sourceZipSha256": "93e3ad6004badf470c55bfe679b748ae88fd9b2b421851e409eec382c7713b9a",
+  "publisher": "CDC / National Center for Health Statistics (public domain)",
+  "totalCodes": 98403,
+  "billableCodes": 74879,
+  "artifact": "icd10cm-2027.tsv.gz",
+  "artifactBytes": 964598,
+  "deletedCodes": [
+    {
+      "code": "S23420",
+      "description": "Sprain of sternoclavicular (joint) (ligament)"
+    },
+    {
+      "code": "S23420A",
+      "description": "Sprain of sternoclavicular (joint) (ligament), init encntr"
+    },
+    {
+      "code": "S23420D",
+      "description": "Sprain of sternoclavicular (joint) (ligament), subs encntr"
+    },
+    {
+      "code": "S23420S",
+      "description": "Sprain of sternoclavicular (joint) (ligament), sequela"
+    },
+    {
+      "code": "T528X",
+      "description": "Toxic effects of other organic solvents"
+    },
+    {
+      "code": "T528X1A",
+      "description": "Toxic effect of organic solvents, accidental, init"
+    },
+    {
+      "code": "T528X1D",
+      "description": "Toxic effect of organic solvents, accidental, subs"
+    },
+    {
+      "code": "T528X1S",
+      "description": "Toxic effect of organic solvents, accidental, sequela"
+    },
+    {
+      "code": "T528X2",
+      "description": "Toxic effect of oth organic solvents, intentional self-harm"
+    },
+    {
+      "code": "T528X2A",
+      "description": "Toxic effect of organic solvents, self-harm, init"
+    },
+    {
+      "code": "T528X2D",
+      "description": "Toxic effect of organic solvents, self-harm, subs"
+    },
+    {
+      "code": "T528X2S",
+      "description": "Toxic effect of organic solvents, self-harm, sequela"
+    },
+    {
+      "code": "T528X3",
+      "description": "Toxic effect of other organic solvents, assault"
+    },
+    {
+      "code": "T528X3S",
+      "description": "Toxic effect of other organic solvents, assault, sequela"
+    },
+    {
+      "code": "T528X4",
+      "description": "Toxic effect of other organic solvents, undetermined"
+    },
+    {
+      "code": "T528X4A",
+      "description": "Toxic effect of oth organic solvents, undetermined, init"
+    },
+    {
+      "code": "T528X4D",
+      "description": "Toxic effect of oth organic solvents, undetermined, subs"
+    },
+    {
+      "code": "T528X4S",
+      "description": "Toxic effect of oth organic solvents, undetermined, sequela"
+    }
+  ]
+}

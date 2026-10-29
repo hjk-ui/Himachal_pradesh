@@ -1,0 +1,100 @@
+<Response>
+<LastUpdateDate>10/20/2026 11:08:41</LastUpdateDate>
+<PrescriptionList>
+<Prescription>
+<Deleted>n</Deleted>
+<Voided>n</Voided>
+<Denied>n</Denied>
+<RcopiaID>SB-61358989377</RcopiaID>
+<ExternalID></ExternalID>
+<IsDischargePrescription>n</IsDischargePrescription>
+<NeedsReview>n</NeedsReview>
+<Patient>
+<RcopiaID>27162725039</RcopiaID>
+<ExternalID>maxpatient</ExternalID>
+<RcopiaPracticeID>2741843271</RcopiaPracticeID>
+<FirstName>Test</FirstName>
+<LastName>Patient</LastName>
+</Patient>
+<Provider>
+<RcopiaID>2741843291</RcopiaID>
+<Username>ssherman</Username>
+<ExternalID>provider1_mb3385</ExternalID>
+<NPI>1234567893</NPI>
+<FirstName>Test</FirstName>
+<LastName>Patient</LastName>
+<DEA>AB1234563</DEA>
+</Provider>
+<ProviderLocation>
+<ProviderGroup>
+<ExternalID>1</ExternalID>
+</ProviderGroup>
+</ProviderLocation>
+<Preparer>
+<RcopiaID>2741843291</RcopiaID>
+<Username>ssherman</Username>
+<ExternalID>provider1_mb3385</ExternalID>
+<FirstName>Test</FirstName>
+<LastName>Patient</LastName>
+</Preparer>
+<Sig>
+<Drug>
+<NDCID>00187006301</NDCID>
+<FirstDataBankMedID>278236</FirstDataBankMedID>
+<RcopiaID>28925</RcopiaID>
+<RxnormID>206821</RxnormID>
+<RxnormIDType>SBD</RxnormIDType>
+<DrugDescription>Ativan 0.5 mg tablet</DrugDescription>
+<BrandName>Ativan</BrandName>
+<GenericName>lorazepam</GenericName>
+<Schedule>4</Schedule>
+<BrandType>brand</BrandType>
+<LegendStatus>rx</LegendStatus>
+<Route>oral</Route>
+<Form>tablet</Form>
+<Strength>0.5 mg</Strength>
+</Drug>
+<Dosage>
+<DosageText>Take 1 tablet by mouth twice a day for anxiety</DosageText>
+<InstructionList>
+<Instruction>
+<ClinicalInstruction>Take 1 tablet by mouth twice a day for anxiety</ClinicalInstruction>
+<Sequence>1</Sequence>
+<Action>Take</Action>
+<Dose>1</Dose>
+<DoseUnit>tablet</DoseUnit>
+<Route>by mouth</Route>
+<DoseTiming>twice a day</DoseTiming>
+<DoseOther>for anxiety</DoseOther>
+</Instruction>
+<Number>1</Number>
+</InstructionList>
+</Dosage>
+<Duration>30</Duration>
+<Quantity>60</Quantity>
+<QuantityUnit>tablet</QuantityUnit>
+<Refills>0</Refills>
+<SubstitutionPermitted>y</SubstitutionPermitted>
+<OtherNotes></OtherNotes>
+<MaximumDailyDose></MaximumDailyDose>
+<MaximumDailyDoseUnit></MaximumDailyDoseUnit>
+<Comments></Comments>
+</Sig>
+<CreatedDate>10/15/2026 14:21:33 EDT</CreatedDate>
+<CompletedDate>10/15/2026 14:24:22 EDT</CompletedDate>
+<SignedDate>10/15/2026 14:24:22 EDT</SignedDate>
+<StopDate>11/14/2026 00:00:00 EST</StopDate>
+<LastModifiedBy>ssherman</LastModifiedBy>
+<LastModifiedDate>10/15/2026 14:24:23 EDT</LastModifiedDate>
+<Height></Height>
+<Weight></Weight>
+<IntendedUse></IntendedUse>
+<CompletionAction>printed,signed</CompletionAction>
+</Prescription>
+<Number>1</Number>
+</PrescriptionList>
+<Status>ok</Status>
+</Response>
+<ResponseEndTimestamp>10/20/2026 11:08:41</ResponseEndTimestamp>
+</RCExtResponse>
+
